@@ -6,25 +6,58 @@ import (
 )
 
 func main() {
-	var timer int
+	var focusTimer int
+	var breakTimer int
+	var alertTimer int
 
-	fmt.Print("How long would you like the focus time to be in minutes? ")
-	_, err := fmt.Scan(&timer)
+	fmt.Print("Focus time (min)? ")
+	_, err := fmt.Scan(&focusTimer)
 
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
-	if timer <= 0 {
+	if focusTimer <= 0 {
 		fmt.Println("Error: Please enter a positive number.")
 		return
 	}
 
-	for i := timer; i > 0; i-- {
-		fmt.Printf("%d min\n", i)
-		time.Sleep(time.Minute)
+	fmt.Print("Break time (min)? ")
+	_, err = fmt.Scan(&breakTimer)
+
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
 	}
 
-	fmt.Println("Done!")
+	if breakTimer <= 0 {
+		fmt.Println("Error: Please enter a positive number")
+		return
+	}
+
+	for focusTimer > 0 {
+		fmt.Printf("%d min\n", focusTimer)
+		time.Sleep(time.Second)
+
+		focusTimer--
+		alertTimer++
+
+		if alertTimer == 30 {
+			fmt.Println("⏰ Eye break! Switch desk to STANDING")
+		}
+		if alertTimer == 60 {
+			fmt.Println("⏰ Eye break! Switch desk to SITTING")
+		}
+	}
+
+	fmt.Printf("Focus done! Starting %d min break\n", breakTimer)
+
+	for breakTimer > 0 {
+		fmt.Printf("%d min\n", breakTimer)
+		time.Sleep(time.Second)
+		breakTimer--
+	}
+
+	fmt.Println("Break time is over! Ready for the next session?")
 }
