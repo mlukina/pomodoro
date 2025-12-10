@@ -10,8 +10,14 @@ func main() {
 
 	fmt.Print("How long would you like the focus time to be in minutes? ")
 	_, err := fmt.Scan(&timer)
+
 	if err != nil {
-		fmt.Println("Error: ", err)
+		fmt.Println("Error:", err)
+		return
+	}
+
+	if timer <= 0 {
+		fmt.Println("Error: Please enter a positive number.")
 		return
 	}
 
