@@ -36,28 +36,55 @@ func main() {
 		return
 	}
 
+	fmt.Println()
+	fmt.Println("========================================")
+	fmt.Printf("       FOCUS SESSION (%d min)\n", focusTimer)
+	fmt.Println("========================================")
+	fmt.Println()
+
 	for focusTimer > 0 {
-		fmt.Printf("%d min\n", focusTimer)
-		time.Sleep(time.Second)
+		// Added 4 spaces to clear line from leftover characters
+		fmt.Printf("\r%d min    ", focusTimer)
+		time.Sleep(time.Minute)
 
 		focusTimer--
 		alertTimer++
 
-		if alertTimer == 30 {
-			fmt.Println("⏰ Eye break! Switch desk to STANDING")
-		}
-		if alertTimer == 60 {
-			fmt.Println("⏰ Eye break! Switch desk to SITTING")
+		switch alertTimer {
+		case 30:
+			fmt.Println()
+			fmt.Println()
+			fmt.Println("====================================")
+			fmt.Println("      👀 Eye break reminder")
+			fmt.Println("     🧍 Switch desk to STANDING")
+			fmt.Println("====================================")
+			fmt.Println()
+		case 60:
+			fmt.Println()
+			fmt.Println()
+			fmt.Println("====================================")
+			fmt.Println("       👀 Eye break reminder")
+			fmt.Println("      💺 Switch desk to SITTING")
+			fmt.Println("====================================")
+			fmt.Println()
 		}
 	}
 
-	fmt.Printf("Focus done! Starting %d min break\n", breakTimer)
+	fmt.Printf("\n\n✅ Focus done! Starting %d min break\n", breakTimer)
+
+	fmt.Println()
+	fmt.Println("========================================")
+	fmt.Printf("       BREAK TIME (%d min)\n", breakTimer)
+	fmt.Println("========================================")
+	fmt.Println()
 
 	for breakTimer > 0 {
-		fmt.Printf("%d min\n", breakTimer)
-		time.Sleep(time.Second)
+		fmt.Printf("\r%d min    ", breakTimer)
+		time.Sleep(time.Minute)
 		breakTimer--
 	}
 
+	fmt.Println()
+	fmt.Println()
 	fmt.Println("Break time is over! Ready for the next session?")
 }
