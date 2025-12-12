@@ -1,38 +1,23 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"time"
 )
 
 func main() {
-	var focusTimer int
-	var breakTimer int
 	var alertTimer int
 
-	fmt.Print("Focus time (min)? ")
-	_, err := fmt.Scan(&focusTimer)
-
+	focusTimer, err := getValidatedInput("Focus time (min)? ")
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
-	if focusTimer <= 0 {
-		fmt.Println("Error: Please enter a positive number.")
-		return
-	}
-
-	fmt.Print("Break time (min)? ")
-	_, err = fmt.Scan(&breakTimer)
-
+	breakTimer, err := getValidatedInput("Break time (min)? ")
 	if err != nil {
 		fmt.Println("Error:", err)
-		return
-	}
-
-	if breakTimer <= 0 {
-		fmt.Println("Error: Please enter a positive number")
 		return
 	}
 
@@ -87,4 +72,22 @@ func main() {
 	fmt.Println()
 	fmt.Println()
 	fmt.Println("Break time is over! Ready for the next session?")
+}
+
+func getValidatedInput(prompt string) (int, error) {
+	var timeInMin int
+	errInvalidTime := errors.New("input must be positive")
+
+	fmt.Print(prompt)
+
+	_, err := fmt.Scan(&timeInMin)
+	if err != nil {
+		return 0, err
+	}
+
+	if timeInMin <= 0 {
+		return 0, errInvalidTime
+	}
+
+	return timeInMin, nil
 }
