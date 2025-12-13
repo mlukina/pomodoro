@@ -76,7 +76,6 @@ func main() {
 
 func getValidatedInput(prompt string) (int, error) {
 	var timeInMin int
-	errInvalidTime := errors.New("input must be positive")
 
 	fmt.Print(prompt)
 
@@ -85,9 +84,17 @@ func getValidatedInput(prompt string) (int, error) {
 		return 0, err
 	}
 
-	if timeInMin <= 0 {
-		return 0, errInvalidTime
-	}
+    err = validateNumber(timeInMin)
+    if err != nil {
+        return 0, err
+    }
 
 	return timeInMin, nil
+}
+
+func validateNumber(n int) error {
+    if n <= 0 {
+        return errors.New("input must be positive")
+    }
+    return nil
 }
